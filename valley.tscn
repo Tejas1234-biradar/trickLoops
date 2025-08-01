@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://blct2wm6a0cty"]
+
+[ext_resource type="Script" uid="uid://dcxy2ydmfu64v" path="res://path.gd" id="1_mfsay"]
+
+[sub_resource type="Curve2D" id="Curve2D_68krh"]
+
+[node name="valley" type="Node2D"]
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_68krh")
+script = ExtResource("1_mfsay")
+width = 1603
+depth = 143
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Path2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Path2D/StaticBody2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="Path2D"]

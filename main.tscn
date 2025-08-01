@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://rwyghfa6wryy"]
+
+[ext_resource type="PackedScene" uid="uid://cx1haifc6cms3" path="res://Mountain.tscn" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://cfwonmudh1bsj" path="res://player.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://nxk0upojxvcm" path="res://obstacle.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://bnu4q8gqs2a0x" path="res://platform_spawner.gd" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://blct2wm6a0cty" path="res://valley.tscn" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://ni2dlmitxpj5" path="res://obstacle_spawner.gd" id="5_lquwl"]
+
+[node name="Main" type="Node2D"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="distance" type="Label" parent="UI"]
+modulate = Color(0.982343, 0.982342, 0.982342, 1)
+offset_left = 12.0
+offset_top = 33.0
+offset_right = 365.0
+offset_bottom = 120.0
+theme_override_font_sizes/font_size = 30
+text = "Distance : 0m
+"
+
+[node name="Score" type="Label" parent="UI"]
+offset_left = 944.0
+offset_top = 34.0
+offset_right = 1136.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 30
+text = "Score:0"
+
+[node name="Player" parent="." instance=ExtResource("2_h2yge")]
+position = Vector2(53, 628)
+
+[node name="PlatformSpawner" type="Node2D" parent="." node_paths=PackedStringArray("player", "starting_valley")]
+position = Vector2(1145, 649)
+script = ExtResource("4_1bvp3")
+valley_scene = ExtResource("4_lquwl")
+player = NodePath("../Player")
+segment_length = 1530
+starting_valley = NodePath("../StartPlatform")
+segment_overlap = 0
+
+[node name="ObstacleSpawner" type="Node2D" parent="PlatformSpawner"]
+position = Vector2(-1145, -649)
+script = ExtResource("5_lquwl")
+obstacle_scene = ExtResource("3_h2yge")
+min_spacing = 94.835
+
+[node name="Obstacle" parent="." instance=ExtResource("3_h2yge")]
+position = Vector2(712, 611)
+rotation = 3.14422
+
+[node name="StartPlatform" parent="." instance=ExtResource("1_0xm2m")]
+position = Vector2(4, 648)
