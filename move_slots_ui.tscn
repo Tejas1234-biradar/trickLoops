@@ -1,0 +1,397 @@
+[gd_scene load_steps=14 format=3 uid="uid://bun4j3famfq14"]
+
+[ext_resource type="Script" uid="uid://byhe37aprq3v3" path="res://move_slots_ui.gd" id="1_bl67c"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4f0y2"]
+
+[sub_resource type="SystemFont" id="SystemFont_3mch4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7fmpv"]
+font = SubResource("SystemFont_3mch4")
+font_size = 25
+font_color = Color(0, 0, 0, 1)
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_bl67c"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_3mch4"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_7fmpv"]
+
+[sub_resource type="Animation" id="Animation_bl67c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Slot1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(748, 466)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Slot2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(488, 468)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Slot3:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(250, 466)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Slot4:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8, 466)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Slot1:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Slot1/Label:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Slot2/Label:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Slot3/Label2:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Slot3:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(8.78386e-07, 0.349845, 0.235498, 1)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Slot4/Label3:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_4f0y2"]
+resource_name = "slot_1"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Slot1:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.0333333, 0.533333, 0.966667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(748, 466), Vector2(748, 400), Vector2(748, 466)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Slot1:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(8.78386e-07, 0.349845, 0.235498, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Slot1/Label:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_3mch4"]
+resource_name = "slot_2"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Slot2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.933333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(488, 466), Vector2(488, 400), Vector2(488, 466)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Slot2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.0233333, 0.966667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(8.78386e-07, 0.349845, 0.235498, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Slot2/Label:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0333333, 0.966667),
+"transitions": PackedFloat32Array(2.92817, 1),
+"update": 0,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_7fmpv"]
+resource_name = "slot_3"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Slot3:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.466667, 0.9),
+"transitions": PackedFloat32Array(1, 1.56917, 1),
+"update": 0,
+"values": [Vector2(250, 466), Vector2(250, 400), Vector2(250, 466)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Slot3:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(8.78386e-07, 0.349845, 0.235498, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Slot3/Label2:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.966667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_e7kn1"]
+resource_name = "slot_4"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Slot4:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.433333, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(8, 466), Vector2(8, 400), Vector2(8, 466)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Slot4:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(8.78386e-07, 0.349845, 0.235498, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Slot4/Label3:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0666667, 0.966667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f6ay4"]
+_data = {
+&"RESET": SubResource("Animation_bl67c"),
+&"slot_1": SubResource("Animation_4f0y2"),
+&"slot_2": SubResource("Animation_3mch4"),
+&"slot_3": SubResource("Animation_7fmpv"),
+&"slot_4": SubResource("Animation_e7kn1")
+}
+
+[node name="MoveSlotsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_bl67c")
+
+[node name="Slot1" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 453.0
+offset_top = 466.118
+offset_right = 593.0
+offset_bottom = 562.118
+texture = SubResource("CanvasTexture_4f0y2")
+
+[node name="Label" type="Label" parent="Slot1"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 19.0
+offset_right = 127.0
+offset_bottom = 79.0
+text = "SLOT 1"
+label_settings = SubResource("LabelSettings_7fmpv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 302.0
+offset_top = 466.0
+offset_right = 442.0
+offset_bottom = 561.0
+texture = SubResource("CanvasTexture_bl67c")
+
+[node name="Label" type="Label" parent="Slot2"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 20.0
+offset_right = 124.0
+offset_bottom = 80.0
+text = "SLOT 2"
+label_settings = SubResource("LabelSettings_7fmpv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot3" type="TextureRect" parent="."]
+modulate = Color(8.78386e-07, 0.349845, 0.235498, 1)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 466.0
+offset_right = 292.0
+offset_bottom = 563.0
+texture = SubResource("CanvasTexture_3mch4")
+
+[node name="Label2" type="Label" parent="Slot3"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 31.0
+offset_right = 124.0
+offset_bottom = 104.0
+text = "SLOT 3
+"
+label_settings = SubResource("LabelSettings_7fmpv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slot4" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 466.0
+offset_right = 150.0
+offset_bottom = 564.0
+texture = SubResource("CanvasTexture_7fmpv")
+
+[node name="Label3" type="Label" parent="Slot4"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 30.0
+offset_right = 131.0
+offset_bottom = 141.0
+text = "SLOT 4
+
+"
+label_settings = SubResource("LabelSettings_7fmpv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_f6ay4")
+}

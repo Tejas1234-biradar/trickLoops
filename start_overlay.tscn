@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://kdmwbmsy10tt"]
+
+[ext_resource type="Script" uid="uid://bn0bi7kum54dn" path="res://start_overlay.gd" id="1_8bsjh"]
+[ext_resource type="Texture2D" uid="uid://bxrhwyqpvx3qr" path="res://image.png" id="2_er0ky"]
+[ext_resource type="Theme" uid="uid://d05x8lpgr6jqs" path="res://minimalist.tres" id="3_d6daj"]
+
+[sub_resource type="SystemFont" id="SystemFont_d6daj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ldgi"]
+font = SubResource("SystemFont_d6daj")
+font_size = 50
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 15
+shadow_color = Color(0, 0, 0, 0.890196)
+shadow_offset = Vector2(5, 1)
+
+[node name="StartOverlay" type="CanvasLayer"]
+script = ExtResource("1_8bsjh")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -11.0
+offset_top = -13.0
+offset_right = 1155.0
+offset_bottom = 661.0
+texture = ExtResource("2_er0ky")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="."]
+offset_left = 196.0
+offset_top = 416.0
+offset_right = 940.0
+offset_bottom = 738.0
+theme = ExtResource("3_d6daj")
+theme_override_font_sizes/font_size = 50
+text = "Press Any Key "
+label_settings = SubResource("LabelSettings_0ldgi")
+horizontal_alignment = 1
+vertical_alignment = 1

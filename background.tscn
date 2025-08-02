@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4io3mixnbvck"]
+
+[ext_resource type="Texture2D" uid="uid://bhqby7x85m6rg" path="res://orig_big_monochrome.png" id="1_oabld"]
+
+[node name="Background" type="CanvasLayer"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.666569, 0.666569, 0.666569, 1)
+self_modulate = Color(0.747057, 0.926583, 0.937022, 1)
+show_behind_parent = true
+z_index = -10
+offset_left = -787.0
+offset_top = -639.0
+offset_right = 1517.0
+offset_bottom = 657.0
+texture = ExtResource("1_oabld")

@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://d0opm1o1ccs8k"]
+
+[ext_resource type="Script" uid="uid://dofimwgq8kihn" path="res://instructions_label.gd" id="1_4giqy"]
+[ext_resource type="Theme" uid="uid://d05x8lpgr6jqs" path="res://minimalist.tres" id="2_7onw7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4giqy"]
+font_size = 20
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="InstructionsLabel" type="CanvasLayer"]
+script = ExtResource("1_4giqy")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 18.0
+offset_top = 112.0
+offset_right = 415.0
+offset_bottom = 265.0
+theme = ExtResource("2_7onw7")
+text = "W - Jump
+A/D - Tilt Left/Right
+Z - Dash (air only)
+Moves are auto-recorded midair.
+After 3 tricks, press keys 1-4 to replay saved moves.
+"
+label_settings = SubResource("LabelSettings_4giqy")

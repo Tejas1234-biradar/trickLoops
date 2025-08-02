@@ -1,8 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://blct2wm6a0cty"]
+[gd_scene load_steps=5 format=3 uid="uid://blct2wm6a0cty"]
 
 [ext_resource type="Script" uid="uid://dcxy2ydmfu64v" path="res://path.gd" id="1_mfsay"]
 
 [sub_resource type="Curve2D" id="Curve2D_68krh"]
+
+[sub_resource type="Gradient" id="Gradient_mfsay"]
+offsets = PackedFloat32Array(0, 0.225352, 0.485915, 0.669014, 0.816901, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.144063, 0.144063, 0.144062, 1, 0.259939, 0.261684, 0.239936, 1, 0.484923, 0.484923, 0.484923, 1, 0.606117, 0.606117, 0.606117, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_68krh"]
+gradient = SubResource("Gradient_mfsay")
+width = 1530
+height = 674
+use_hdr = true
+fill_from = Vector2(0.883495, 0.440782)
+fill_to = Vector2(0.888349, 1)
 
 [node name="valley" type="Node2D"]
 
@@ -17,3 +29,6 @@ depth = 143
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Path2D/StaticBody2D"]
 
 [node name="Polygon2D" type="Polygon2D" parent="Path2D"]
+offset = Vector2(6.435, 0)
+texture = SubResource("GradientTexture2D_68krh")
+uv = PackedVector2Array(935.131, 280.071)

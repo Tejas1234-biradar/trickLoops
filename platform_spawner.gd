@@ -26,12 +26,15 @@ var valley_type_weights = {
 	2: 10,  # STEEP_DROP
 	3: 20,  # GENTLE_SLOPE
 	4: 10,  # DOUBLE_DIP
-	5: 5,   # CLIFF_FACE - rare but exciting
+	5: 3,   # CLIFF_FACE - rare but exciting
 	6: 15   # BUMPY
 }
 
 # Reference to the obstacle spawner
 var obstacle_spawner: ObstacleSpawner
+
+# Mountain layer colors for depth effect (only used for background layers)
+
 
 func _ready():
 	# Find or create obstacle spawner
@@ -89,6 +92,9 @@ func spawn_segment():
 	# This ensures configuration happens before _ready() is called
 	configure_valley_segment(seg)
 	
+	# Apply the mountain styling (using Godot's gradient texture)
+	apply_mountain_styling(seg)
+	
 	# Now add it to the scene tree, which will trigger _ready() with our configuration
 	add_child(seg)
 	
@@ -109,7 +115,7 @@ func spawn_segment():
 	
 	spawned_segments.append(seg)
 	
-	# Smooth the transition between segments
+	# Enhanced smooth transition between segments
 	smooth_segment_transition(seg)
 	
 	# Spawn obstacles using the dedicated spawner
@@ -145,13 +151,55 @@ func configure_valley_segment(segment):
 	path2d.chaos_factor = 0.2 + (difficulty_progression * 0.3)
 	path2d.steepness = 0.3 + (difficulty_progression * 0.2)
 	path2d.downhill_slope = total_descent
-	path2d.smoothness = 0.6 + randf_range(-0.2, 0.3)  # Add some variation to smoothness
+	path2d.smoothness = 1 + randf_range(-0.2, 0.3)  # Add some variation to smoothness
 	
 	# Vary segment dimensions for more chaos
 	path2d.width = segment_length + randf_range(-100, 200)
 	path2d.depth = 100 + randf_range(-30, 80) + (difficulty_progression * 50)
+
+func apply_mountain_styling(segment):
+	var path2d = segment.get_node("Path2D")
+	if not path2d:
+		return
 	
-	# Debug output
+	# Find existing polygon - don't create if it doesn't exist
+	var polygon = path2d.get_node_or_null("Polygon2D")
+	if polygon:
+		# DON'T override the existing color - preserve what's already set
+		# Only add blending material for seamless transitions
+		setup_blending_material(polygon)
+	
+	# Create background mountain layers for depth
+	var depth_factor = min(spawned_segments.size() * 0.1, 1.0)
+	create_background_layers(path2d, depth_factor)
+
+func setup_blending_material(polygon: Polygon2D):
+	var material = CanvasItemMaterial.new()
+	material.blend_mode = CanvasItemMaterial.BLEND_MODE_MIX
+	
+	# Add subtle transparency at edges for seamless blending
+	material.light_mode = CanvasItemMaterial.LIGHT_MODE_NORMAL
+	polygon.material = material
+
+func create_background_layers(path2d: Node2D, depth_factor: float):
+	# Create multiple background mountain silhouettes for depth
+	var layer_count = min(3, int(spawned_segments.size() * 0.2) + 1)
+	
+	for i in range(layer_count):
+		var layer_depth = (i + 1) * 0.3 + depth_factor
+		
+		# Create background layer polygon
+		var bg_polygon = Polygon2D.new()
+		bg_polygon.name = "BackgroundLayer" + str(i)
+		bg_polygon.z_index = -10 - i  # Behind main terrain
+		
+		
+		# Scale and position for parallax effect
+		var scale_factor = 1.0 - (layer_depth * 0.2)
+		bg_polygon.scale = Vector2(scale_factor, scale_factor)
+		bg_polygon.position = Vector2(0, -50 * (i + 1))  # Offset upward
+		
+		path2d.add_child(bg_polygon)
 
 func choose_valley_type() -> int:
 	# Adjust weights based on difficulty progression
@@ -190,20 +238,56 @@ func update_difficulty_progression():
 		downhill_rate = max(20, min(downhill_rate, 60))  # Keep within reasonable bounds
 
 func smooth_segment_transition(new_segment):
-	# If we have a previous segment, blend the overlapping area
+	# Enhanced blending between segments
 	if spawned_segments.size() > 1:
 		var prev_segment = spawned_segments[spawned_segments.size() - 2]
-		blend_segment_overlap(prev_segment, new_segment)
+		blend_segments_seamlessly(prev_segment, new_segment)
 
-func blend_segment_overlap(prev_segment, new_segment):
-	# This is where you'd implement collision shape blending
-	# For now, we ensure the visual Polygon2D overlaps smoothly
+func blend_segments_seamlessly(prev_segment, new_segment):
 	var prev_path = prev_segment.get_node_or_null("Path2D")
 	var new_path = new_segment.get_node_or_null("Path2D")
 	
-	if prev_path and new_path:
-		# The overlap positioning and height matching should create smooth transitions
-		pass
+	if not prev_path or not new_path:
+		return
+	
+	var prev_polygon = prev_path.get_node_or_null("Polygon2D")
+	var new_polygon = new_path.get_node_or_null("Polygon2D")
+	
+	if not prev_polygon or not new_polygon:
+		return
+	
+	# DON'T override existing colors - let the polygons keep their original colors
+	# Only create transition zones if needed
+	create_transition_zone(prev_segment, new_segment)
+
+func create_transition_zone(prev_segment, new_segment):
+	# Get the existing polygon colors for blending
+	var prev_path = prev_segment.get_node_or_null("Path2D")
+	var new_path = new_segment.get_node_or_null("Path2D")
+	
+	if not prev_path or not new_path:
+		return
+	
+	var prev_polygon = prev_path.get_node_or_null("Polygon2D")
+	var new_polygon = new_path.get_node_or_null("Polygon2D")
+	
+	if not prev_polygon or not new_polygon:
+		return
+	
+	# Create a blending polygon in the overlap zone using existing colors
+	var transition_polygon = Polygon2D.new()
+	transition_polygon.name = "TransitionBlend"
+	transition_polygon.z_index = -1  # Behind main terrain but in front of background
+	
+	# Blend between the two existing colors
+	var blend_color = prev_polygon.color.lerp(new_polygon.color, 0.5)
+	transition_polygon.color = Color(blend_color.r, blend_color.g, blend_color.b, 0.3)  # Semi-transparent
+	
+	# Position in overlap area
+	transition_polygon.position = Vector2(-segment_overlap/2, 0)
+	
+	# Add to new segment
+	new_path.add_child(transition_polygon)
 
 func cleanup_old_segments():
 	for seg in spawned_segments:

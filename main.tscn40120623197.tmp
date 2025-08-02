@@ -1,0 +1,115 @@
+[gd_scene load_steps=17 format=3 uid="uid://rwyghfa6wryy"]
+
+[ext_resource type="PackedScene" uid="uid://cx1haifc6cms3" path="res://Mountain.tscn" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://bub7myyn4xr25" path="res://main.gd" id="1_272bh"]
+[ext_resource type="PackedScene" uid="uid://kdmwbmsy10tt" path="res://start_overlay.tscn" id="2_4c57u"]
+[ext_resource type="Script" uid="uid://c01n500ddujpq" path="res://fx_manager.gd" id="2_5vw27"]
+[ext_resource type="PackedScene" uid="uid://d4io3mixnbvck" path="res://background.tscn" id="2_dg77c"]
+[ext_resource type="PackedScene" uid="uid://cfwonmudh1bsj" path="res://player.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://nxk0upojxvcm" path="res://obstacle.tscn" id="3_h2yge"]
+[ext_resource type="PackedScene" uid="uid://fpbhtdexatwp" path="res://fog_overlay.tscn" id="3_ycdy4"]
+[ext_resource type="Script" uid="uid://bnu4q8gqs2a0x" path="res://platform_spawner.gd" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://blct2wm6a0cty" path="res://valley.tscn" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://ni2dlmitxpj5" path="res://obstacle_spawner.gd" id="5_lquwl"]
+[ext_resource type="PackedScene" uid="uid://p52q03firsaj" path="res://trick_pop_up.tscn" id="7_w48qg"]
+[ext_resource type="PackedScene" uid="uid://g13e6io8vd6f" path="res://kill_screen.tscn" id="10_4c57u"]
+[ext_resource type="PackedScene" uid="uid://d0opm1o1ccs8k" path="res://instructions_label.tscn" id="11_efxa6"]
+
+[sub_resource type="SystemFont" id="SystemFont_d6daj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ldgi"]
+font = SubResource("SystemFont_d6daj")
+font_size = 50
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 15
+shadow_color = Color(0, 0, 0, 0.890196)
+shadow_offset = Vector2(5, 1)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_272bh")
+
+[node name="Background" parent="." instance=ExtResource("2_dg77c")]
+layer = -128
+
+[node name="FogOverlay" parent="." instance=ExtResource("3_ycdy4")]
+
+[node name="Player" parent="." instance=ExtResource("2_h2yge")]
+top_level = true
+z_index = 5
+position = Vector2(46, 621)
+
+[node name="StartOverlay" parent="." instance=ExtResource("2_4c57u")]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Score" type="Label" parent="UI"]
+offset_left = 899.0
+offset_top = 35.0
+offset_right = 1091.0
+offset_bottom = 104.0
+theme_override_font_sizes/font_size = 30
+text = "Score:0"
+label_settings = SubResource("LabelSettings_0ldgi")
+
+[node name="distance" type="Label" parent="UI"]
+modulate = Color(0.982343, 0.982342, 0.982342, 1)
+offset_left = 12.0
+offset_top = 33.0
+offset_right = 365.0
+offset_bottom = 120.0
+theme_override_font_sizes/font_size = 30
+text = "Distance : 0m
+"
+label_settings = SubResource("LabelSettings_0ldgi")
+
+[node name="FXManager" type="Node2D" parent="."]
+position = Vector2(60, 374)
+script = ExtResource("2_5vw27")
+trick_zoom_smoothing = 5.0
+final_zoom_smoothing = 1.0
+
+[node name="DashParticles" type="CPUParticles2D" parent="FXManager"]
+position = Vector2(-2, 28)
+
+[node name="PerfectLandingParticles" type="CPUParticles2D" parent="FXManager"]
+position = Vector2(3, 78)
+
+[node name="SavedMoveGlow" type="Sprite2D" parent="FXManager"]
+position = Vector2(0.5, 10.75)
+scale = Vector2(0.269531, 22.5)
+
+[node name="TrickPopUp" parent="." instance=ExtResource("7_w48qg")]
+offset_left = 894.0
+offset_top = 105.0
+offset_right = 1094.0
+offset_bottom = 185.0
+
+[node name="PlatformSpawner" type="Node2D" parent="." node_paths=PackedStringArray("player", "starting_valley")]
+position = Vector2(1145, 649)
+script = ExtResource("4_1bvp3")
+valley_scene = ExtResource("4_lquwl")
+player = NodePath("../Player")
+segment_length = 1530
+starting_valley = NodePath("../StartPlatform")
+segment_overlap = 0
+downhill_rate = 40
+
+[node name="ObstacleSpawner" type="Node2D" parent="PlatformSpawner"]
+position = Vector2(-1139, -613)
+script = ExtResource("5_lquwl")
+obstacle_scene = ExtResource("3_h2yge")
+min_spacing = 94.835
+
+[node name="Obstacle" parent="." instance=ExtResource("3_h2yge")]
+position = Vector2(712, 611)
+rotation = 3.14422
+
+[node name="StartPlatform" parent="." instance=ExtResource("1_0xm2m")]
+position = Vector2(4, 648)
+
+[node name="KillScreen" parent="." instance=ExtResource("10_4c57u")]
+visible = false
+
+[node name="InstructionsLabel" parent="." instance=ExtResource("11_efxa6")]
+follow_viewport_enabled = true

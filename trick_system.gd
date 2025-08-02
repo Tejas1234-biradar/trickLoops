@@ -7,7 +7,7 @@ const TRICK_POINTS = {
 	"backflip": 100,
 	"frontflip": 100,
 	"double_jump": 50,
-	"air_dash":75,
+	"air_dash": 75,
 }
 
 # === PLAYER REFERENCE ===
@@ -46,7 +46,7 @@ var tilt_left_pressed_this_frame = false
 var tilt_right_pressed_this_frame = false
 var tilt_left_released_this_frame = false
 var tilt_right_released_this_frame = false
-var air_dash_released_this_frame=false
+var air_dash_pressed_this_frame = false
 
 # === MOVE SYSTEM ===
 var unlocked_move_1 = null
@@ -79,7 +79,8 @@ func _ready():
 	simulated_actions = {
 		"jump": false,
 		"tilt_left": false,
-		"tilt_right": false
+		"tilt_right": false,
+		"air_dash": false
 	}
 
 func _physics_process(delta):
@@ -106,20 +107,22 @@ func _physics_process(delta):
 			player_rotation_diff += 360
 		
 		# Detect completed flips (need at least 300 degrees of rotation)
-		if abs(player_rotation_diff) >= 300:
+		if abs(player_rotation_diff) >= 90:
 			var move_name = ""
-			if player_rotation_diff > 0:
+			if player_rotation_diff <0:
 				print("You completed a backflip!")
 				move_name = "backflip"
 			else:
 				print("You completed a frontflip!")
 				move_name = "frontflip"
 			
-			# Stop recording if we were recording this trick
+			# Complete trick BEFORE stopping recording
+			complete_trick(move_name)
+			
+			# Stop recording AFTER completing trick
 			if is_recording:
 				stop_recording()
 			
-			complete_trick(move_name)
 			print("Flip completed at player rotation: ", player.rotation_degrees)
 	
 	# --- CHAIN TIMEOUT CHECK ---
@@ -133,6 +136,7 @@ func _physics_process(delta):
 	tilt_right_pressed_this_frame = false
 	tilt_left_released_this_frame = false
 	tilt_right_released_this_frame = false
+	air_dash_pressed_this_frame = false
 
 func _input(event):
 	if not player:
@@ -150,24 +154,35 @@ func _input(event):
 			tilt_right_pressed_this_frame = true
 		if Input.is_action_just_released("tilt_right"):
 			tilt_right_released_this_frame = true
+		if Input.is_action_just_pressed("air_dash"):
+			air_dash_pressed_this_frame = true
 	
 	# Don't process manual inputs during replay
 	if is_replaying:
 		return
 	
-	# --- SAVE MOVE INPUT ---
-	if Input.is_action_just_pressed("save_loop") and unlocked_move_1 != null:
-		# Save the recorded input sequence along with the move name
-		var move_data = {
-			"name": unlocked_move_1,
-			"inputs": recorded_inputs.duplicate(),
-			"score": TRICK_POINTS.get(unlocked_move_1, 0)
-		}
-		saved_moves.append(move_data)
-		print("Saved move %d: %s with %d inputs (Score: %d)" % [saved_moves.size(), unlocked_move_1, recorded_inputs.size(), move_data.score])
-		move_saved.emit(unlocked_move_1, saved_moves.size())
-		unlocked_move_1 = null
-		recorded_inputs.clear()
+	# --- SAVE MOVE INPUT (IMPROVED WITH DEBUG) ---
+	if Input.is_action_just_pressed("save_loop"):
+		print("=== SAVE ATTEMPT DEBUG ===")
+		print("unlocked_move_1: ", unlocked_move_1)
+		print("recorded_inputs size: ", recorded_inputs.size())
+		print("is_recording: ", is_recording)
+		print("========================")
+		
+		if unlocked_move_1 != null and recorded_inputs.size() > 0:
+			# Save the recorded input sequence along with the move name
+			var move_data = {
+				"name": unlocked_move_1,
+				"inputs": recorded_inputs.duplicate(),
+				"score": TRICK_POINTS.get(unlocked_move_1, 0)
+			}
+			saved_moves.append(move_data)
+			print("Saved move %d: %s with %d inputs (Score: %d)" % [saved_moves.size(), unlocked_move_1, recorded_inputs.size(), move_data.score])
+			move_saved.emit(unlocked_move_1, saved_moves.size())
+			unlocked_move_1 = null
+			recorded_inputs.clear()
+		else:
+			print("Cannot save: unlocked_move_1=%s, inputs=%d" % [str(unlocked_move_1), recorded_inputs.size()])
 	
 	# --- CHAINING INPUT ---
 	if Input.is_action_just_pressed("chaining"):
@@ -182,6 +197,11 @@ func _input(event):
 			if i <= saved_moves.size() and player.is_on_floor():
 				var move_data = saved_moves[i - 1]
 				replay_move(move_data, i)
+
+# === FREE CHARGES DURING REPLAY ===
+func should_consume_charges() -> bool:
+	"""Returns true if charges should be consumed (false during replay)"""
+	return not is_replaying
 
 # === CUSTOM INPUT SYSTEM FOR REPLAY ===
 func is_action_just_pressed_custom(action: String) -> bool:
@@ -256,6 +276,15 @@ func record_physics_inputs():
 			"rotation": player.rotation_degrees
 		})
 		print("Recorded: tilt_right_end at %.1fms" % current_time)
+	
+	if air_dash_pressed_this_frame:
+		recorded_inputs.append({
+			"timestamp": current_time,
+			"action": "air_dash",
+			"position": player.global_position,
+			"rotation": player.rotation_degrees
+		})
+		print("Recorded: air_dash at %.1fms" % current_time)
 
 func handle_input_playback(delta: float):
 	"""Handle playback of recorded inputs by simulating input actions"""
@@ -263,6 +292,7 @@ func handle_input_playback(delta: float):
 	
 	# Reset just_pressed flags each frame
 	simulated_actions["jump_just_pressed"] = false
+	simulated_actions["air_dash_just_pressed"] = false
 	
 	# Check if we should execute the next input
 	while replay_index < replay_inputs.size():
@@ -306,6 +336,10 @@ func simulate_input_action(input_data):
 		"tilt_right_end":
 			simulated_actions["tilt_right"] = false
 			print("Simulated tilt_right end")
+		
+		"air_dash":
+			simulated_actions["air_dash_just_pressed"] = true
+			print("Simulated air dash")
 
 func start_recording():
 	"""Start recording inputs"""
@@ -337,7 +371,9 @@ func replay_move(move_data, slot_number: int):
 		"jump": false,
 		"jump_just_pressed": false,
 		"tilt_left": false,
-		"tilt_right": false
+		"tilt_right": false,
+		"air_dash": false,
+		"air_dash_just_pressed": false
 	}
 
 func stop_replay():
@@ -351,7 +387,9 @@ func stop_replay():
 		"jump": false,
 		"jump_just_pressed": false,
 		"tilt_left": false,
-		"tilt_right": false
+		"tilt_right": false,
+		"air_dash": false,
+		"air_dash_just_pressed": false
 	}
 	print("Replay finished!")
 
@@ -371,6 +409,12 @@ func on_double_jump_performed():
 		complete_trick("double_jump")
 		print("Double jump performed!")
 
+func on_air_dash_performed():
+	"""Called by player when air dash is performed"""
+	if not is_replaying:  # Only detect manual air dashes
+		complete_trick("air_dash")
+		print("Air dash performed!")
+
 func on_landed():
 	"""Called by player when landing"""
 	flip_completed = false  # Reset flip detection when landing
@@ -381,7 +425,13 @@ func on_landed():
 
 func complete_trick(trick_name: String):
 	"""Complete a trick and handle scoring"""
-	unlocked_move_1 = trick_name
+	# Only set unlocked_move_1 if it's empty (prevent overwriting)
+	if unlocked_move_1 == null:
+		unlocked_move_1 = trick_name
+		print("Unlocked move set to: %s" % trick_name)
+	else:
+		print("Move already unlocked (%s), ignoring %s" % [unlocked_move_1, trick_name])
+	
 	flip_completed = true  # Prevent multiple detections
 	
 	# Add to chain if recording
@@ -454,4 +504,4 @@ func reset_trick_system():
 	if is_recording_chain:
 		stop_chain_recording()
 	
-	print("Trick system reset!")  
+	print("Trick system reset!")

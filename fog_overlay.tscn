@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://fpbhtdexatwp"]
+
+[sub_resource type="Gradient" id="Gradient_mphcn"]
+offsets = PackedFloat32Array(0, 0.448052, 0.571429, 0.694805, 0.746753, 0.831169, 0.876623, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.339615, 0.339615, 0.339615, 0.256493, 0.431373, 0.431373, 0.431373, 0.380392, 0.52665, 0.52665, 0.52665, 0.397749, 0.560784, 0.560784, 0.560784, 0.423529, 0.586928, 0.586928, 0.586928, 0.573856, 0.601006, 0.601006, 0.601006, 0.654801, 0.639216, 0.639216, 0.639216, 0.87451)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_s5la8"]
+gradient = SubResource("Gradient_mphcn")
+width = 86
+use_hdr = true
+fill_from = Vector2(0.348624, 0.191084)
+fill_to = Vector2(0.353211, 0.764335)
+
+[node name="FogOverlay" type="CanvasLayer"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1153.0
+offset_bottom = 655.0
+texture = SubResource("GradientTexture2D_s5la8")

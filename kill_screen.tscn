@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://g13e6io8vd6f"]
+
+[ext_resource type="Script" uid="uid://ci6053xsq7fgh" path="res://kill_screen.gd" id="1_vwase"]
+[ext_resource type="Theme" uid="uid://d05x8lpgr6jqs" path="res://minimalist.tres" id="2_wrd86"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_5bnra"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_wrd86"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_jen13"]
+
+[node name="KillScreen" type="CanvasLayer"]
+script = ExtResource("1_vwase")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+self_modulate = Color(1, 1, 1, 0.290196)
+offset_right = 1155.0
+offset_bottom = 650.0
+texture = SubResource("CanvasTexture_5bnra")
+
+[node name="Restart" type="Button" parent="."]
+offset_left = 477.0
+offset_top = 233.0
+offset_right = 596.0
+offset_bottom = 320.0
+theme = ExtResource("2_wrd86")
+theme_override_colors/icon_hover_pressed_color = Color(0.945098, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_icons/icon = SubResource("ImageTexture_wrd86")
+text = "Restart
+"
+
+[node name="MainMenu" type="Button" parent="."]
+offset_left = 451.0
+offset_top = 342.0
+offset_right = 628.0
+offset_bottom = 429.0
+theme = ExtResource("2_wrd86")
+theme_override_colors/icon_hover_pressed_color = Color(0.945098, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 1, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_icons/icon = SubResource("ImageTexture_wrd86")
+text = "Main Menu
+"
+icon = SubResource("CanvasTexture_jen13")
